@@ -27,9 +27,16 @@ public class LoginPerson {
 				psmt.setString(2, password);
 
 				ResultSet rs = psmt.executeQuery();
+				int personId;
 
 				if (rs.next()) {
+					personId = rs.getInt("person_id");
 					System.out.println("Welcome User, your username is : " + rs.getString("person_username"));
+					
+					System.out.println("PersonId " + personId);
+					
+					Menu.setConnection(conn, personId);
+	
 					break;
 
 				}
