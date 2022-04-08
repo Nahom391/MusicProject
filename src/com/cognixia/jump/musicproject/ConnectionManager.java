@@ -47,6 +47,7 @@ public class ConnectionManager {
 	
 	public static void main(String[] args) {
 		
+		
 		Connection conn = null;
 		try {
 			conn = ConnectionManager.getConnection();
@@ -61,12 +62,20 @@ public class ConnectionManager {
 		//Connection otherConn = BetterConnectionManager.getConnection();
 		
 		try {
+			LoginPerson.loginFunction(conn);
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		try {
 			conn.close();
 			System.out.println("Connection Closed");
 			
 		} catch (SQLException e) {
 			System.out.println("Couldn't close connection");
 		}
+		
 		
 		System.out.println("End of program");
 		
