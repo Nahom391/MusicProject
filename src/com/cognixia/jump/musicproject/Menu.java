@@ -22,7 +22,6 @@ public class Menu {
 		Menu.conn = conn;
 		Menu.personId = id;
 		Menu.showMenu();
-		
 
 	}
 
@@ -61,11 +60,10 @@ public class Menu {
 	}
 
 	public static void addAlbum() {
-		
+
 		System.out.println("Hi User");
 
-		
-		while(true) {
+		while (true) {
 			System.out.println("PersonId id is " + Menu.personId);
 			System.out.println("Please enter an album id : ");
 			Scanner sc1 = new Scanner(System.in);
@@ -74,100 +72,117 @@ public class Menu {
 
 			System.out.println("Please enter the status : ");
 			String status = sc1.nextLine();
-			
+
 			Playlist pl = new Playlist(Menu.personId, album_id, status);
-			
-			
-			
+
 			PlaylistDaoSql pd = new PlaylistDaoSql();
-			
+
 			PlaylistDaoSql.setConnection(conn);
-			
+
 			boolean result = pd.addPlaylist(pl);
-			
-			if(result) {
+
+			if (result) {
 				System.out.println("You have inserted successfully");
 				break;
-			}else {
+			} else {
 				System.out.println("You can not insert the album");
 			}
 
 		}
-		
+
 	}
 
 	public static void showAlbum() {
-		
+
 		int person_id = Menu.personId;
-		
+
 		AlbumDaoSql.setConnection(conn);
-		
+
 		AlbumDao albumDao = new AlbumDaoSql();
-		
+
 		List<Album> albumList = albumDao.getAllAlbums(person_id);
-		
+
 		System.out.println("ALBUMS");
 		System.out.println("-----------------");
-		
-		for(Album al : albumList) {
+
+		for (Album al : albumList) {
 			System.out.println(al);
 		}
-
 
 	}
 
 	public static void updateAlbum() {
-		
-		while(true) {
-			
+
+		while (true) {
+
 			System.out.println("Please enter an album id that you want to update : ");
 			Scanner sc2 = new Scanner(System.in);
 			albumId = sc2.nextInt();
 			sc2.nextLine();
-			
+
 			AlbumDaoSql.setConnection(conn);
-			
+
 			AlbumDaoSql pd = new AlbumDaoSql();
-			
+
 			boolean result = pd.getAlbumById(Menu.personId, albumId);
-			
-			if(result) {
+
+			if (result) {
 				System.out.println("You have permission to update the playlist status");
 				break;
-			}else {
+			} else {
 				System.out.println("You do not have permission to update the playlist status");
 			}
-			
+
 		}
-		
-		while(true) {
+
+		while (true) {
 			Scanner sc3 = new Scanner(System.in);
 			System.out.println("Please enter the status : ");
 			String status = sc3.nextLine();
-			
+
 			Playlist pl = new Playlist(Menu.personId, albumId, status);
-			
-			
-			
+
 			PlaylistDaoSql pd = new PlaylistDaoSql();
-			
+
 			PlaylistDaoSql.setConnection(conn);
-			
+
 			boolean r = pd.updatePlaylist(pl);
-			
-			if(r) {
+
+			if (r) {
 				System.out.println("You have updated successfully");
 				break;
-				
-			}else {
+
+			} else {
 				System.out.println("OH, SORRY! You could not update the playlist!");
 			}
 		}
 	}
-		
-
 
 	public static void deleteAlbum() {
+
+		while (true) {
+
+			System.out.println("Please enter an album id that you want to delete : ");
+			Scanner sc4 = new Scanner(System.in);
+			albumId = sc4.nextInt();
+			sc4.nextLine();
+
+			PlaylistDaoSql.setConnection(conn);
+
+			PlaylistDao pl = new PlaylistDaoSql();
+
+			boolean result = pl.deleteAlbum(Menu.personId, albumId);
+
+			if (result) {
+				System.out.println("You have deleted the playlist from your list");
+				break;
+			} else {
+				System.out.println("You could not delete the playlist!!! Something went wrong!");
+			}
+
+		}
+
+		
 
 	}
 

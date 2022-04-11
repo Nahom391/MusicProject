@@ -76,6 +76,33 @@ public class PlaylistDaoSql implements PlaylistDao {
 		
 		return false;
 	}
+	
+	@Override
+	public boolean deleteAlbum(int person_id, int album_id) {
+
+		try (PreparedStatement pstmt = conn
+				.prepareStatement("delete from album_person where person_id = ? and album_id = ?")) {
+
+			pstmt.setInt(1, person_id);
+			pstmt.setInt(2, album_id);
+
+			// if update occurred, count will be 1 or more
+			// if update didn't occur, count will be 0
+			int count = pstmt.executeUpdate();
+
+			// did update
+			if (count > 0) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		// no update occurred
+		return false;
+
+	}
 
 	
 	
