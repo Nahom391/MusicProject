@@ -23,7 +23,7 @@ public class PlaylistDaoSql implements PlaylistDao {
 	@Override
 	public boolean addPlaylist(Playlist pl) {
 
-		try (PreparedStatement pstmt = conn
+		try (PreparedStatement pstmt = PlaylistDaoSql.conn
 				.prepareStatement("insert into album_person(person_id, album_id, album_person_status) values(?,?,?)")) 
 		{
 
@@ -48,6 +48,38 @@ public class PlaylistDaoSql implements PlaylistDao {
 		return false;
 
 	}
+	
+	@Override
+	public boolean updatePlaylist(Playlist pl) {
 
+		try (PreparedStatement pstmt = PlaylistDaoSql.conn
+				.prepareStatement("update album_person set album_person_status = ? where person_id = ? and album_id = ?")) {
+			
+			pstmt.setString(1, pl.getAlbum_person_status());
+			pstmt.setInt(2, pl.getPerson_id());
+			pstmt.setInt(3, pl.getAlbum_id());
+			
+
+			// if update occurred, count will be 1 or more
+			// if update didn't occur, count will be 0
+			int count = pstmt.executeUpdate();
+
+			
+			if (count > 0) {
+				return true;
+			}
+
+		} catch (SQLException e) {
+			System.out.println("You could not update the album");
+		}
+
+		
+		return false;
+	}
+
+	
+	
+	
+	
 
 }

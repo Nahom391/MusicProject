@@ -15,6 +15,7 @@ public class Menu {
 
 	public static Connection conn;
 	public static int personId;
+	public static int albumId;
 
 	public static void setConnection(Connection conn, int id) {
 
@@ -116,8 +117,55 @@ public class Menu {
 	}
 
 	public static void updateAlbum() {
-
+		
+		while(true) {
+			
+			System.out.println("Please enter an album id that you want to update : ");
+			Scanner sc2 = new Scanner(System.in);
+			albumId = sc2.nextInt();
+			sc2.nextLine();
+			
+			AlbumDaoSql.setConnection(conn);
+			
+			AlbumDaoSql pd = new AlbumDaoSql();
+			
+			boolean result = pd.getAlbumById(Menu.personId, albumId);
+			
+			if(result) {
+				System.out.println("You have permission to update the playlist status");
+				break;
+			}else {
+				System.out.println("You do not have permission to update the playlist status");
+			}
+			
+		}
+		
+		while(true) {
+			Scanner sc3 = new Scanner(System.in);
+			System.out.println("Please enter the status : ");
+			String status = sc3.nextLine();
+			
+			Playlist pl = new Playlist(Menu.personId, albumId, status);
+			
+			
+			
+			PlaylistDaoSql pd = new PlaylistDaoSql();
+			
+			PlaylistDaoSql.setConnection(conn);
+			
+			boolean r = pd.updatePlaylist(pl);
+			
+			if(r) {
+				System.out.println("You have updated successfully");
+				break;
+				
+			}else {
+				System.out.println("OH, SORRY! You could not update the playlist!");
+			}
+		}
 	}
+		
+
 
 	public static void deleteAlbum() {
 
