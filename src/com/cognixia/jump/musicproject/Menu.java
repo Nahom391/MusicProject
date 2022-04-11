@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.time.LocalDate;
 import java.time.Period;
+import java.util.List;
 import java.util.Scanner;
 
 public class Menu {
@@ -95,6 +96,22 @@ public class Menu {
 	}
 
 	public static void showAlbum() {
+		
+		int person_id = Menu.personId;
+		
+		AlbumDaoSql.setConnection(conn);
+		
+		AlbumDao albumDao = new AlbumDaoSql();
+		
+		List<Album> albumList = albumDao.getAllAlbums(person_id);
+		
+		System.out.println("ALBUMS");
+		System.out.println("-----------------");
+		
+		for(Album al : albumList) {
+			System.out.println(al);
+		}
+
 
 	}
 
